@@ -25,9 +25,10 @@ class Students extends ResourceController
     {
 
 
-        if ($this->request->getVar('sel')) {
-            $column = implode(',', $this->request->getVar('sel'));
-            $students = $this->student->select($column)->findAll();
+        if ($this->request->getRawInputVar('attribute') !=null) {
+            $attr = $this->request->getRawInputVar('attribute');
+//
+            $students = $this->student->select($attr)->findAll();
         } else {
             $students = $this->student->findAll();
         }

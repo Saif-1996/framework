@@ -11,45 +11,63 @@ use App\Controllers\BaseController;
 
 class ExcelController extends BaseController
 {
+
+
     public function index()
     {
-        $curl = service('curlrequest');
-        $data = $curl->request('GET', 'http://localhost/project-root/public/api/students', [
-            'headers' => [
-                'Accept' => 'application/json',
+//return print_r($this->request->getVar('sel'));
+        $attr = null;
 
-            ],
-"" =>[
-    'sel' =>$this->request->getVar('sel')
-]
-//            'sel'=>$this->request->getVar('sel')
-
-        ]);
-        return print_r($data->getBody());
-//die();
-//        $employee_object = new Student();
-        $data = json_decode($data->getBody(), true);
-//$data=json_decode($data);
-//        $data = $employee_object->findAll();
-
-
-//        return print_r($data[1]);
 
         $file_name = 'data.xlsx';
 
         $spreadsheet = new Spreadsheet();
 
         $sheet = $spreadsheet->getActiveSheet();
+        $char = 'A';
+        $count = 2;
 
-        $sheet->setCellValue('A1', ' id');
 
-        $sheet->setCellValue('B1', 'name');
+        if ($this->request->getVar('sel')) {
+            $attr = implode(',', $this->request->getVar('sel'));
 
-        $sheet->setCellValue('C1', 'Email.');
+            foreach ($this->request->getVar('sel') as $value) {
+//            $newChar = chr(ord($char) + 1);
+                $sheet->setCellValue(''.$char.'1', $value);
+                $char++;
+
+            }
+
+        }
+
+
+        $curl = service('curlrequest');
+        $data = $curl->request('GET', 'http://localhost/project-root/public/api/students', [
+            'headers' => [
+                'Accept' => 'application/json',
+            ],
+            "form_params" => [
+                'attribute' => $attr]
+        ]);
+
+//        $employee_object = new Student();
+
+//$data=json_decode($data);
+//        $data = $employee_object->findAll();
+
+
+//        return print_r($data[1]);
+
+
+
+//        $sheet->setCellValue('A1', ' id');
+//
+//        $sheet->setCellValue('B1', 'name');
+//
+//        $sheet->setCellValue('C1', 'Email.');
 
 //        $sheet->setCellValue('D1', 'Department');
 
-        $count = 2;
 
         foreach ($data as $row) {
             $sheet->setCellValue('A' . $count, $row['id']);
