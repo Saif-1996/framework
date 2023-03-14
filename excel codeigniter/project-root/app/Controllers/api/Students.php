@@ -27,7 +27,7 @@ class Students extends ResourceController
 
         if ($this->request->getRawInputVar('attribute') !=null) {
             $attr = $this->request->getRawInputVar('attribute');
-//
+
             $students = $this->student->select($attr)->findAll();
         } else {
             $students = $this->student->findAll();

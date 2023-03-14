@@ -4,6 +4,7 @@ namespace Config;
 
 // Create a new instance of our RouteCollection class.
 use App\Controllers\ExcelController;
+use App\Controllers\Test;
 
 $routes = Services::routes();
 
@@ -40,6 +41,8 @@ $routes->resource('api/students');
 $routes->get('/export-from-api-to-excel', 'ExcelController::exportFromApiToExcel');
 $routes->get('/export', 'ExcelController::index');
 $routes->get('page',[ExcelController::class,'viewExport']);
+//$routes->get('test',[Test::class,'toExcel']);
+$routes->get('test',[Test::class,'test']);
 
 //$routes->get('students',[Students::class,'index']);
 //$routes->get('api',[FromapiController::class,'index']);
